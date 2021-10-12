@@ -1,4 +1,4 @@
-name: Generate Catalog PR
+name: Check for Platform Deprecations in Apps
 
 on: workflow_dispatch
 
@@ -22,10 +22,6 @@ jobs:
 
       - name: Validate files
         env:
-          GIT_AUTHOR_NAME: "nr-opensource-bot"
-          GIT_AUTHOR_EMAIL: "opensource+bot@newrelic.com"
-          GIT_COMMITTER_NAME: "nr-opensource-bot"
-          GIT_COMMITTER_EMAIL: "opensource+bot@newrelic.com"
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NR_QUERY_KEY: ${{ secrets.NR_QUERY_KEY }}
           NR_ACCOUNT_ID: ${{ secrets.NR_ACCOUNT_ID }}
