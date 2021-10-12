@@ -124,6 +124,7 @@ const createPullRequestDescription = (data) => {
   // core.info(pullRequestDescription);
   return pullRequestDescription;
 };
+
 /**
  * Fetches event data from the Insights Event API for each app
  * @param {Array} apps - Array of appName strings
@@ -132,7 +133,7 @@ const createPullRequestDescription = (data) => {
 const getDeprecationMessages = async (apps) => {
   const deprecationMessages = await Promise.all(
     apps.map(async (appName) => {
-      const messageQuery = `${basePath}FROM LoggerAction SELECT message, args WHERE nerdpackName = '${appName}'  SINCE ${timeframe} ago`;
+      const messageQuery = `${basePath}FROM LoggerAction SELECT message, args WHERE nerdpackName = '${appName}'  SINCE ${timeframe} ago LIMIT 1000`;
       const messagesData = await pRetry(() => getData(messageQuery, options), {
         retries,
       });
