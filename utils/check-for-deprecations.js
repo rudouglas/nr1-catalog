@@ -9,8 +9,8 @@ const globals = JSON.parse(rawGlobalsdata);
 
 const timeframe = "2 months";
 const retries = 5;
-const ACCOUNT_ID = 1067061;
-const queryKey = "NRIQ-pzdsTV4tY9KlIGf5e85fFRpqa2UqYSu_";
+const ACCOUNT_ID = 0;
+const queryKey = "";
 const basePath = `https://staging-insights-api.newrelic.com/v1/accounts/${ACCOUNT_ID}/query?nrql=`;
 const options = {
   headers: {
