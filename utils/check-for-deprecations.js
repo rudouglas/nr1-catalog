@@ -174,7 +174,7 @@ const main = async () => {
       body: "Hello Universe!",
     });
   } catch (error) {
-  console.error(err)}
+  console.error(error)}
 };
 
 main();
