@@ -45,7 +45,7 @@ const get2Data = async (url, options) => {
   try {
     const response = await fetch(url, options);
 
-    if (response.status <= 300) {
+    if (response.status >= 300) {
       throw new pRetry.AbortError({
         errorMessage: `Request failed after ${retries} retries`,
         statusText: response.statusText,
