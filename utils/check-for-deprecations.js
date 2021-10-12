@@ -4,6 +4,7 @@ import pRetry from "p-retry";
 import fs from "fs";
 import * as core from "@actions/core";
 import * as github from "@actions/github";
+import {Octokit} from "@octokit/rest";
 const rawGlobalsdata = fs.readFileSync("../globals.json");
 const globals = JSON.parse(rawGlobalsdata);
 
@@ -19,6 +20,9 @@ const options = {
 };
 
 const context = github.context;
+const octokit = new Octokit({
+  auth: process.env.GITHUB_TOKEN,
+});
 
 const getData = async (url, options) => {
   try {
