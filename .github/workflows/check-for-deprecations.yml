@@ -12,7 +12,7 @@ env:
 
 jobs:
   check-for-deprecations:
-    name: Ensure schema compliance
+    name: Check for Deprecated Messages
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -20,6 +20,8 @@ jobs:
 
       - name: Setup Node.js
         uses: actions/setup-node@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           node-version: 12
   
