@@ -12,8 +12,8 @@ const pullRequestIntro =
   "## Description \nThe following apps and deprecation messages have been logged in the platform. To prevent users of these apps seeing error toasts in the platform, please make the necessary changes.\nSee for more context:\n - https://docs.google.com/document/d/1kyaxHKxVqTcyaayKK3TG6MLXvje3Uc59RqX1kC9bjE0/edit#\n - https://nerdlife.datanerd.us/new-relic/logger-improvements-834d24dc-16c0-4e64-b6a1-95c03100e779\n\n## Apps\n";
 const timeframe = "2 months";
 const retries = 5;
-const ACCOUNT_ID = process.env.NR_ACCOUNT_ID;
-const queryKey = process.env.NR_QUERY_KEY;
+const ACCOUNT_ID = 1067061;
+const queryKey = "NRIQ-pzdsTV4tY9KlIGf5e85fFRpqa2UqYSu_";
 const basePath = `https://staging-insights-api.newrelic.com/v1/accounts/${ACCOUNT_ID}/query?nrql=`;
 const options = {
   headers: {
@@ -85,6 +85,7 @@ const replaceMessageArgs = async (events) => {
       return message;
     })
   );
+
   const uniqueMessages = await getUniqueMessages(replacedMessages);
   return uniqueMessages;
 };
@@ -97,15 +98,15 @@ const replaceMessageArgs = async (events) => {
 const getUniqueMessages = async (messages) => {
   const uniqueMessages = await Promise.all(
     messages.reduce((acc, current) => {
-      const dupe = acc.find((item) => item.message === current.message);
+      const dupe = acc.find((item) => item === current);
 
       if (!dupe) {
-        acc.push(current);
+        return acc.concat([current]);
+      } else {
+        return acc;
       }
-      return acc;
     }, [])
   );
-
   return uniqueMessages;
 };
 
@@ -176,7 +177,8 @@ const main = async () => {
   if (!deprecationMessages) {
     return;
   }
-  const pullRequestDescription = createPullRequestDescription(deprecationMessages);
+  const pullRequestDescription =
+    createPullRequestDescription(deprecationMessages);
 
   try {
     const newIssue = await octokit.rest.issues.create({
