@@ -18,8 +18,6 @@ const options = {
   },
 };
 
-const myToken = core.getInput("token");
-const octokit = github.getOctokit(process.env.GITHUB_TOKEN);
 const context = github.context;
 
 const getData = async (url, options) => {
@@ -175,7 +173,8 @@ const main = async () => {
       title: "New issue!",
       body: "Hello Universe!",
     });
-  } catch (error) {}
+  } catch (error) {
+  console.error(err)}
 };
 
 main();
