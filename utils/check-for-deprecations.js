@@ -62,7 +62,7 @@ const getData = async (url, options) => {
     return response.json();
   } catch (err) {
     core.setFailed("Action failed with error:");
-    core.error(err);
+    core.error(JSON.stringify(err));
     return [];
   }
 };
