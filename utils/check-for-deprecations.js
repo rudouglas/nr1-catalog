@@ -173,6 +173,7 @@ const main = async () => {
       title: "New issue!",
       body: "Hello Universe!",
     });
+    console.log(newIssue)
   } catch (error) {
   console.error(error)}
 };
