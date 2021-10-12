@@ -19,7 +19,7 @@ const options = {
 };
 
 const myToken = core.getInput("token");
-const octokit = github.getOctokit(myToken);
+const octokit = github.getOctokit(process.env.GITHUB_TOKEN);
 const context = github.context;
 
 const getData = async (url, options) => {
