@@ -77,7 +77,7 @@ const replaceMessageArgs = async (events) => {
         return acc;
       }, event.message);
 
-      return message;
+      return {message, severity: event.severity};
     })
   );
 
@@ -89,7 +89,7 @@ const replaceMessageArgs = async (events) => {
 const getUniqueMessages = async (messages) => {
   const uniqueMessages = await Promise.all(
     messages.reduce((acc, current) => {
-      const x = acc.find((item) => item === current);
+      const x = acc.find((item) => item.message === current.message);
 
       if (!x) {
         return acc.concat([current]);
@@ -105,7 +105,7 @@ const getUniqueMessages = async (messages) => {
 const createPullRequestDescription = (data) => {
   const pullRequestDescription = data.reduce((acc, app) => {
     acc += `\n - [ ] ${app.appName}\n`;
-    app.messages.forEach((message) => (acc += `      - [ ] ${message}\n`));
+    app.messages.forEach((message) => (acc += `      - [ ] ${message} (${app.severity})\n`));
     return acc;
   }, "");
   core.info(pullRequestDescription);
@@ -124,7 +124,7 @@ const stringifyArrayForNrql = (arr) => {
 const getDeprecationMessages = async (apps) => {
   const deprecationMessages = await Promise.all(
     apps.map(async (appName) => {
-      const messageQuery = `${basePath}FROM LoggerAction SELECT message, args WHERE nerdpackName = '${appName}'  SINCE ${timeframe} ago`;
+      const messageQuery = `${basePath}FROM LoggerAction SELECT message, args, severity WHERE nerdpackName = '${appName}'  SINCE ${timeframe} ago`;
       const messagesData = await pRetry(() => get2Data(messageQuery, options), {
         retries,
       });
@@ -132,11 +132,11 @@ const getDeprecationMessages = async (apps) => {
         return null;
       }
       const { events } = messagesData.results[0];
-      const messages = await replaceMessageArgs(events);
+      const replacedArgs = await replaceMessageArgs(events);
 
       return {
         appName,
-        messages,
+        ...replacedArgs,
       };
     })
   );
