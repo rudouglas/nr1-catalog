@@ -7,6 +7,8 @@ env:
   GIT_COMMITTER_NAME: "nr-opensource-bot"
   GIT_COMMITTER_EMAIL: "opensource+bot@newrelic.com"
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  NR_QUERY_KEY: ${{ secrets.NR_QUERY_KEY }}
+  NR_ACCOUNT_ID: ${{ secrets.NR_ACCOUNT_ID }}
 
 jobs:
   check-for-deprecations:
